@@ -1,0 +1,34 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+    int a[100],i,j,n;
+    cout<<"Enter the number of elemnts in an array:";
+    cin>>n;
+    for(i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            if(a[i]>a[j])
+            {
+                int temp=a[i];
+                a[i]=a[j];
+                a[j]=temp;
+            }
+        }
+    }
+    cout<<"after storing:";
+    for(i=0;i<n;i++)
+    {
+
+        cout<<a[i]<<endl;
+    }
+
+        cout<<"Second maximum is :"<<a[n-2]<<endl;
+        cout<<"second minimum is:"<<a[1]<<endl;
+    return 0;
+}
