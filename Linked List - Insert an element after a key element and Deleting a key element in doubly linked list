@@ -1,0 +1,79 @@
+#include <iostream>
+using namespace std;
+class Node {
+public:
+    int data;
+    Node* next;
+    Node* prev;
+};
+void insertdata(Node** head, int data) {
+    Node* n = new Node();
+    n->data = data;
+    n->next = *head;
+    n->prev = NULL;
+    *head = n;
+}
+void print(Node* head) {
+    cout << "The list:" << endl;
+    Node* temp = head;
+    while (temp != NULL) {
+        cout << temp->data << endl;
+        temp = temp->next;} }
+void insertnode(Node* head, int key, int data) {
+    Node* temp = head;
+    while (temp != NULL && temp->data != key) {
+        temp = temp→next; }
+    if (temp == NULL) {
+        cout << "Key not found. Cannot insert node." << endl;
+        return; }
+    Node* newNode = new Node();
+    newNode->data = data;
+    newNode->next = temp->next;
+    newNode->prev = temp;
+    if (temp->next != NULL) {
+        temp->next->prev = newNode;
+    }
+    temp->next = newNode;
+}
+void deletenode(Node* head, int key) {
+    Node* temp = head;
+    while (temp != NULL && temp->data != key) {
+        temp = temp->next;
+    }
+    if (temp == NULL) {
+        cout << "Key not found" << endl;
+        return;
+    }
+    if (temp->prev != NULL) {
+        temp->prev->next = temp->next;
+    } else {
+        head = temp->next;
+    }
+    if (temp->next != NULL) {
+        temp->next->prev = temp->prev;
+    }
+    delete temp;
+}
+int main() {
+    Node* head = NULL;
+    int numElements, key, data;
+    cout << "Enter the number of elements: ";
+    cin >> numElements;
+    cout<<"Enter the elements of the linked list : "<<endl;
+    for (int i = 0; i < numElements; i++) {
+        cin >> data;
+        insertdata(&head, data);
+    }
+    print(head);
+    cout << "\nEnter the element to insert after (key): ";
+    cin >> key;
+    cout << "Enter the element to insert: ";
+    cin >> data;
+    insertnode(head, key, data);
+    print(head);
+    cout << "\nEnter the element to delete (key): ";
+    cin >> key;
+    deletenode(head, key);
+    print(head);
+    return 0;
+}
