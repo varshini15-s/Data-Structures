@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function to find the index of the first unique character in a string
+int unique(string s) {
+    int n = s.length(); // Get the length of the string
+    for (int i = 0; i < n; ++i) {
+        int found = 1; // Assume the character is unique
+        for (int j = 0; j < n; ++j) {
+            // Check if the character at position i is the same as any other character in the string
+            if (i != j && s[i] == s[j]) {
+                found = 0; // Character is repeated
+                break;
+            }
+        }
+        // If the character is unique, return its index
+        if (found == 1) {
+            return i;
+        }
+    }
+    // Return -1 if no unique character is found
+    return -1;
+}
+
+int main() {
+    string s;
+    cout << "Enter the string s: " << endl;
+    cin >> s; // Read the input string
+    cout << unique(s); // Print the index of the first unique character
+    return 0;
+}
