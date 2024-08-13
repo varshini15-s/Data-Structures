@@ -1,0 +1,88 @@
+#include <iostream>
+using namespace std;
+
+class TwoStacks {
+    int *arr;   // Array to hold elements of both stacks
+    int top1;   // Index for the top of stack1
+    int top2;   // Index for the top of stack2
+    int size;   // Total size of the array
+
+public:
+    // Constructor to initialize the stacks
+    TwoStacks(int n) {
+        size = n;
+        arr = new int[n]; // Allocate memory for the array
+        top1 = -1;        // Initialize top1 for stack1
+        top2 = size;      // Initialize top2 for stack2
+    }
+
+    // Push operation for stack1
+    void push1(int x) {
+        if (top1 + 1 == top2) {  // Check for stack overflow
+            cout << "Stack Overflow" << endl;
+            return;
+        }
+        arr[++top1] = x; // Increment top1 and add element to stack1
+    }
+
+    // Pop operation for stack1
+    int pop1() {
+        if (top1 == -1) {  // Check for stack underflow
+            cout << "Stack Underflow" << endl;
+            return -1;
+        }
+        return arr[top1--]; // Return element and decrement top1
+    }
+
+    // Push operation for stack2
+    void push2(int x) {
+        if (top2 - 1 == top1) {  // Check for stack overflow
+            cout << "Stack Overflow" << endl;
+            return;
+        }
+        arr[--top2] = x; // Decrement top2 and add element to stack2
+    }
+
+    // Pop operation for stack2
+    int pop2() {
+        if (top2 == size) {  // Check for stack underflow
+            cout << "Stack Underflow" << endl;
+            return -1;
+        }
+        return arr[top2++]; // Return element and increment top2
+    }
+};
+
+int main() {
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n; // Size of the array for two stacks
+
+    TwoStacks ts(n); // Create TwoStacks object with size n
+
+    int numElements;
+    cout << "Enter the number of elements to push: ";
+    cin >> numElements; // Number of elements to push into each stack
+
+    // Push elements into stack1
+    for (int i = 0; i < numElements; ++i) {
+        int value;
+        cout << "Enter value for stack 1: ";
+        cin >> value;
+        ts.push1(value);
+    }
+
+    // Push elements into stack2
+    for (int i = 0; i < numElements; ++i) {
+        int value;
+        cout << "Enter value for stack 2: ";
+        cin >> value;
+        ts.push2(value);
+    }
+
+    // Pop and display elements from stack1 and stack2
+    cout << "Popped from stack 1: " << ts.pop1() << endl;
+    cout << "Popped from stack 2: " << ts.pop2() << endl;
+
+    return 0;
+}
