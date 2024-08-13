@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next;
+};
+
+void inserting(node** head, int data) {
+    node* n = new node();
+    n->data = data;
+    n->next = *head;
+    *head = n;
+}
+
+void print(node* head) {
+    cout << "The original list:" << endl;
+    while (head != NULL) {
+        cout << head->data << endl;
+        head = head->next;
+    }
+}
+
+void removedup(node* head) {
+    cout << "Removed list:" << endl;
+    node* current = head;
+    node* prev = NULL;
+    while (current != NULL) {
+        if (prev == NULL || prev->data != current->data) {
+            cout << current->data << endl;
+        }
+        prev = current;
+        current = current->next;
+    }
+}
+
+int main() {
+    node* head = NULL;
+    inserting(&head, 6);
+    inserting(&head, 6);
+    inserting(&head, 6);
+    inserting(&head, 3);
+    inserting(&head, 2);
+    inserting(&head, 1);
+    print(head);
+    removedup(head);
+    return 0;
+}
