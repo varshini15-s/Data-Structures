@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+
+int arr[100]; // Initialize a single dimensional array with dimension=100
+int top = -1; // Initialize top for stack
+
+// Push operation for stack
+void push(int x) {
+    if (top == 99) { // Condition to check if stack overflows
+        cout << "Stack Overflow" << endl;
+        return;
+    }
+    arr[++top] = x; // Push element onto stack
+}
+
+// Pop operation for stack
+int pop() {
+    if (top == -1) { // Condition to check if stack is empty
+        cout << "Stack Underflow" << endl;
+        return -1;
+    }
+    return arr[top--]; // Pop element from stack
+}
+
+// Function to print binary representation of numbers from 1 to n
+void Binary(int n) {
+    for (int i = 1; i <= n; i++) {
+        int num = i; // Current number to convert to binary
+        while (num > 0) {
+            push(num % 2); // Push remainder (0 or 1) onto stack
+            num /= 2;      // Divide num by 2 to process next bit
+        }
+
+        // Print binary representation by popping from the stack
+        while (top != -1) {
+            cout << pop(); // Pop elements from stack (top of stack is most significant bit)
+        }
+        cout << endl; // New line after each binary number
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter the value of n: ";
+    cin >> n; // Input number n
+    Binary(n); // Convert numbers from 1 to n to binary and print
+    return 0;
+}
