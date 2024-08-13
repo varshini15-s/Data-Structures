@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+class lifo {
+public:
+    char ele[50]; // Array to hold stack elements
+    int top;      // Index of the top element in the stack
+
+    // Constructor to initialize the stack
+    lifo() : top(-1) {}
+
+    // Push an element onto the stack
+    void push(char e) {
+        if (top < 49) { // Check if stack is not full
+            ele[++top] = e;
+        } else {
+            cout << "Stack overflow" << endl;
+        }
+    }
+
+    // Print all elements in the stack
+    void print() {
+        for (int i = 0; i <= top; i++) {
+            cout << ele[i];
+        }
+        cout << endl;
+    }
+
+    // Remove '*' characters from the stack and push remaining characters onto another stack
+    void removestar(lifo &other) {
+        for (int i = 0; i <= top; i++) {
+            if (ele[i] == '*') {
+                // Skip '*' characters
+                continue;
+            } else {
+                other.push(ele[i]);
+            }
+        }
+    }
+};
+
+int main() {
+    lifo s1; // Original stack
+    lifo s2; // Modified stack without '*'
+    string v;
+
+    cout << "Enter the string: ";
+    cin >> v;
+
+    // Push each character of the input string onto the original stack
+    for (int i = 0; i < v.size(); i++) {
+        s1.push(v[i]);
+    }
+
+    cout << "Original stack:" << endl;
+    s1.print();
+
+    // Remove '*' characters and transfer remaining characters to the second stack
+    s1.removestar(s2);
+
+    cout << "Modified stack:" << endl;
+    s2.print();
+
+    return 0;
+}
