@@ -1,0 +1,93 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Define a structure for the Stack
+struct Stack {
+    char elem[100]; // Array to hold stack elements
+    int top;       // Index of the top element in the stack
+};
+
+// Function to push an element onto the stack
+void push(Stack* s, char item) {
+    if (s->top == 99) {
+        cout << "Stack full"; // Stack is full, cannot push
+    } else {
+        s->elem[++s->top] = item; // Increment top and push the item
+    }
+}
+
+// Function to check if the stack is empty
+bool isempty(Stack* s) {
+    return s->top == -1; // Stack is empty if top is -1
+}
+
+// Function to pop an element from the stack
+char pop(Stack* s) {
+    if (s->top == -1) {
+        cout << "Stack empty"; // Stack is empty, cannot pop
+        return -1; // Return -1 to indicate an error
+    } else {
+        return s->elem[s->top--]; // Return the top element and decrement top
+    }
+}
+
+// Function to check if brackets in the expression are balanced
+bool areBracketsBalanced(string expr) {
+    char x;
+    Stack s;
+    s.top = -1; // Initialize stack as empty
+
+    // Traversing the Expression
+    for (int i = 0; i < expr.length(); i++) {
+        switch (expr[i]) {
+            case '(': // Push opening parenthesis onto the stack
+            case '[': // Push opening square bracket onto the stack
+            case '{': // Push opening curly brace onto the stack
+                push(&s, expr[i]);
+                break;
+
+            case ')': // Check closing parenthesis
+                if (isempty(&s) || pop(&s) != '(') {
+                    return false; // Unmatched closing parenthesis
+                }
+                break;
+
+            case '}': // Check closing curly brace
+                if (isempty(&s) || pop(&s) != '{') {
+                    return false; // Unmatched closing curly brace
+                }
+                break;
+
+            case ']': // Check closing square bracket
+                if (isempty(&s) || pop(&s) != '[') {
+                    return false; // Unmatched closing square bracket
+                }
+                break;
+
+            default:
+                // Ignore other characters
+                break;
+        }
+    }
+
+    // Check if the stack is empty (all opening brackets matched)
+    return isempty(&s);
+}
+
+int main() {
+    string expr;
+
+    // Input the expression from user
+    cout << "Input the string: " << endl;
+    cin >> expr;
+
+    // Check if the brackets in the expression are balanced
+    if (areBracketsBalanced(expr)) {
+        cout << "Balanced"; // Brackets are balanced
+    } else {
+        cout << "Not Balanced"; // Brackets are not balanced
+    }
+
+    return 0;
+}
