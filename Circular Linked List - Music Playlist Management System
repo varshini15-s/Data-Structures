@@ -1,0 +1,143 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Node {
+public:
+    string data;
+    Node* next;
+};
+
+// Function to insert new songs to the playlist
+Node* insert(Node* head, string data) {
+    Node* newnode = new Node();
+    newnode->data = data;
+    if (head == NULL) {
+        newnode->next = newnode; // Points to itself
+        head = newnode;
+    } else {
+        Node* current = head;
+        while (current->next != head) {
+            current = current->next;
+        }
+        current->next = newnode;
+        newnode->next = head;
+    }
+    return head;
+}
+
+// Function to delete a song from the playlist
+Node* del(Node* head, string key) {
+    if (head == NULL) return head;  // Return if the list is empty
+
+    Node* current = head;
+    Node* prev = NULL;
+
+    // If head needs to be deleted
+    if (head->data == key) {
+        while (current->next != head) {
+            current = current->next;
+        }
+        if (head->next == head) { // Only one node in the list
+            delete head;
+            return NULL;
+        }
+        current->next = head->next;
+        delete head;
+        head = current->next;
+        return head;
+    }
+
+    // For non-head deletion
+    prev = head;
+    current = head->next;
+    while (current != head) {
+        if (current->data == key) {
+            prev->next = current->next;
+            delete current;
+            return head;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    cout << "Element not found" << endl;
+    return head;
+}
+
+// Function to print the playlist
+void print(Node* head) {
+    if (head != NULL) {
+        Node* current = head;
+        do {
+            cout << current->data << " ";
+            current = current->next;
+        } while (current != head);
+        cout << endl;
+    }
+}
+
+int main() {
+    Node* head = NULL;
+    int n;
+    string yn, yene;
+
+    cout << "Enter the number of elements of the circular linked list: " << endl;
+    cin >> n;
+    cout << "\nEnter the elements of the circular linked list: " << endl;
+    for (int i = 0; i < n; i++) {
+        string data;
+        cin >> data;
+        head = insert(head, data); // Calling the insert function
+    }
+    cout << "\nThe input elements of the linked list are: " << endl;
+    print(head); // Calling the print function
+
+    int c1;
+    do {
+        cout << "Enter 1) Delete \n2) Add \n3) Circular navigation: " << endl;
+        cin >> c1;
+
+        switch (c1) {
+        case 1: {
+            cout << "\nEnter the element to delete from the circular linked list: " << endl;
+            string key;
+            cin >> key;
+            head = del(head, key); // Calling the deletion function
+            cout << "\nAfter deletion: " << endl;
+            print(head); // Display elements after deletion
+            break;
+        }
+        case 2: {
+            cout << "\nEnter the number of new songs you want to insert in the circular linked list: " << endl;
+            int n1;
+            cin >> n1;
+            cout << "\nEnter the new songs to insert in the circular linked list: " << endl;
+            for (int i = 0; i < n1; i++) {
+                string data;
+                cin >> data;
+                head = insert(head, data); // Calling the insert function
+            }
+            cout << "\nElements after insertion in the circular linked list: " << endl;
+            print(head);
+            break;
+        }
+        case 3: {
+            cout << "\nCircular navigation of the playlist: " << endl;
+            do {
+                print(head);
+                cout << "\nDo you want to continue listening to your playlist (y/n): " << endl;
+                cin >> yn;
+            } while (yn == "y");
+            break;
+        }
+        default:
+            cout << "Invalid Input" << endl;
+            break;
+        }
+        cout << "Do you want to continue (y/n): " << endl;
+        cin >> yene;
+    } while (yene == "y");
+
+    return 0;
+}
