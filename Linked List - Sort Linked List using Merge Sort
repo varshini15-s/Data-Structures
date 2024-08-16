@@ -1,0 +1,95 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+class Node
+{
+    public:
+    int data;
+    Node* next;
+};
+Node* inserts(Node* head,int data)
+{
+
+    Node* newnode=new Node();
+    newnode->data=data;
+    newnode->next=head;
+    head=newnode;
+}
+Node* print(Node* head)
+{
+    Node* current=head;
+   // cout<<"Enter element : "<<endl;
+    while(current!=NULL)
+    {
+        cout<<current->data<<endl;
+        current=current->next;
+    }
+}
+void split(Node* head, Node** fr, Node** br) {
+    Node* slow = head;
+    Node* fast = head->next;
+
+
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+
+    *fr = head;
+    *br = slow->next;
+    slow->next = NULL;
+}
+Node* merge(Node* a, Node* b) {
+    if (a == NULL) return b;
+    if (b == NULL) return a;
+
+    if (a->data < b->data) {
+        a->next = merge(a->next, b);
+        return a;
+    } else {
+        b->next = merge(a, b->next);
+        return b;
+    }
+}
+
+Node* mergeSort(Node* head) {
+    if (head == NULL || head->next == NULL) {
+        return head;
+    }
+
+    Node* front;
+    Node* back;
+
+    split(head, &front, &back);
+
+    front = mergeSort(front);
+    back = mergeSort(back);
+
+    return merge(front, back);
+}
+
+int main()
+{
+    int n;
+    cout<<"Enter the value of n : "<<endl;
+    cin>>n;
+    Node* head=NULL;
+    Node* current=head;
+
+    cout<<"Enter the elements of the linked list : "<<endl;
+    for(int i=0;i<n;i++)
+    {
+        int data;
+        cin>>data;
+        head=inserts(head,data);
+    }
+    cout<<"Displaying the elements of the list : "<<endl;
+    print(head);
+      head = mergeSort(head);
+    cout<<"After sorting the linked list we get : "<<endl;
+    print(head);
+    return 0;
+}
